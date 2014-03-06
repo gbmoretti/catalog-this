@@ -20,6 +20,7 @@ class RedisClient
 
   private
   def redis_conf
+    #https://devcenter.heroku.com/articles/rediscloud
     uri = URI.parse(ENV["REDISCLOUD_URL"])
     {:host => uri.host, :port => uri.port, :password => uri.password}
   end
