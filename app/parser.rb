@@ -1,5 +1,6 @@
 require 'nokogiri'
 require 'open-uri'
+require 'open_uri_redirections'
 
 class Parser
 
@@ -24,7 +25,7 @@ class Parser
 
   private
   def open_doc
-    Nokogiri::HTML(open(@url))
+    Nokogiri::HTML(open(@url, allow_redirections: :all))
   end
 
   def parse_title
