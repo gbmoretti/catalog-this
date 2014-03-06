@@ -5,9 +5,11 @@ require 'json'
 require 'redcarpet'
 require 'redis'
 require 'pry'
+require 'dotenv'
 
 require_relative 'app/cataloger'
 
+Dotenv.load
 
 class CatalogThis < Sinatra::Base
 
@@ -21,5 +23,3 @@ class CatalogThis < Sinatra::Base
   end
 
 end
-
-CatalogThis.run!
