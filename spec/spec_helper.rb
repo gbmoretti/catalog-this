@@ -1,6 +1,7 @@
 ENV['RACK_ENV'] = 'test'
 require 'rspec'
 require 'rack/test'
+require 'fakeredis/rspec'
 
 require_relative '../catalog_this'
 

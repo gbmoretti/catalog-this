@@ -3,18 +3,35 @@ require_relative 'redis_client'
 class Link
   attr_reader :title, :keywords, :site, :url
 
+  PREFIX = 'link::'
 
   def self.find(url)
-    client = RedisClient.get_instance
-    parsed_link = client.get(url)
-    self.new(parsed_link) if parsed_link
+    parsed_link = RedisClient.instance.get(PREFIX + url)
+    return self.new(parsed_link) if parsed_link
     false
   end
 
   def self.create(url,parsed_link)
-    client = RedisClient.get_instance
-    client.set(url,parsed_link)
+    RedisClient.instance.set(PREFIX + url,parsed_link)
     self.new(url,parsed_link)
+  end
+
+  def self.count
+    RedisClient.instance.count_keys(PREFIX)
+  end
+
+  def self.find_by_params(params)
+    keys = RedisClient.instance.keys(PREFIX)
+    links = []
+    keys.each do |key|
+      link = RedisClient.instance.get(key)
+      params.each do |param,value|
+        unless link[param].nil?
+          links << link if link[param] =~ Regexp.new(value)
+        end
+      end
+    end
+    links.map { |l| self.new(l['url'],l) }
   end
 
   def initialize(url,resource)
@@ -35,7 +52,7 @@ class Link
 
   private
   def client
-    @redis ||= RedisClient.get_instance
+    RedisClient.instance
   end
 
 end
