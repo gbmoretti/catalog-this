@@ -1,6 +1,5 @@
 ENV['RACK_ENV'] ||= 'development'
 
-
 require 'sinatra'
 require 'sinatra/json'
 require 'sinatra/base'

@@ -68,9 +68,22 @@ describe CatalogThis do
       last_response.should be_ok
     end
 
+    it "search non-catalogged site" do
+      get 'search/', url: 'http://github.com/innvent/parsley_simple_form'
+      response_hash = JSON.parse(last_response.body)
+      response_hash.should have(0).item
+    end
+
     it "search by site" do
       post 'catalog/', link: 'http://github.com/innvent/parsley_simple_form'
       get 'search/', site: 'github.com'
+      response_hash = JSON.parse(last_response.body)
+      response_hash.should have(1).item
+    end
+
+    it "search by url" do
+      post 'catalog/', link: 'http://github.com/innvent/parsley_simple_form'
+      get 'search/', url: 'http://github.com/innvent/parsley_simple_form'
       response_hash = JSON.parse(last_response.body)
       response_hash.should have(1).item
     end

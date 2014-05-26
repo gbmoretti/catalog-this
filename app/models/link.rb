@@ -7,13 +7,14 @@ class Link
 
   def self.find(url)
     parsed_link = RedisClient.instance.get(PREFIX + url)
-    return self.new(parsed_link) if parsed_link
+    return self.new(url,parsed_link) if parsed_link
     false
   end
 
   def self.create(url,parsed_link)
-    RedisClient.instance.set(PREFIX + url,parsed_link)
-    self.new(url,parsed_link)
+    link = self.new(url,parsed_link)
+    RedisClient.instance.set(PREFIX + url,link.to_hash)
+    link
   end
 
   def self.count
@@ -41,13 +42,17 @@ class Link
     @site = resource['site']
   end
 
-  def to_json(args)
-    JSON.generate({
+  def to_json(args=nil)
+    JSON.generate(to_hash)
+  end
+
+  def to_hash
+    {
       title: @title,
       url: @url,
       keywords: @keywords,
       site: @site
-    })
+    }
   end
 
   private
