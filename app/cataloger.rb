@@ -12,6 +12,10 @@ class Cataloger
     end
   end
 
+  def self.search(params)
+    links = Link.find_by_params(params)
+  end
+
   def initialize
   end
 
