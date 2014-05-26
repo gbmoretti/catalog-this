@@ -1,5 +1,6 @@
 ENV['RACK_ENV'] ||= 'development'
 
+
 require 'sinatra'
 require 'sinatra/json'
 require 'sinatra/base'
@@ -16,7 +17,7 @@ else
   require 'redis'
 end
 
-if ENV['RACK_ENV'] != 'production' ||
+if ENV['RACK_ENV'] != 'production' &&
   ENV['RACK_ENV'] != 'test'
   require 'dotenv'
   Dotenv.load
