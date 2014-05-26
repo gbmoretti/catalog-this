@@ -6,7 +6,7 @@ require 'sinatra/base'
 require 'json'
 require 'redcarpet'
 require 'pry'
-require 'dotenv'
+
 require_relative 'app/cataloger'
 require_relative 'app/app_infos'
 
@@ -18,6 +18,7 @@ end
 
 if ENV['RACK_ENV'] != 'production' ||
   ENV['RACK_ENV'] != 'test'
+  require 'dotenv'
   Dotenv.load
 end
 
