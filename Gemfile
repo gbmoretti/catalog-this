@@ -13,5 +13,4 @@ gem 'fakeredis', require: 'fakeredis/rspec', :groups => [:development, :test]
 group :test do
   gem 'capybara'
   gem 'rspec'
-  gem 'pry'
 end
